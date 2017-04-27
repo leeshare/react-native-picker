@@ -355,10 +355,28 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                     layoutParams.height = height;
                     layoutParams.gravity = Gravity.BOTTOM;
+                    if (options.hasKey(PICKER_TOOL_BAR_HEIGHT) && barViewHeight == 0){
+                        layoutParams.y = 200;
+                    }
                     window.setAttributes(layoutParams);
                 }
             } else {
                 dialog.dismiss();
+                //2017-04-19 Add : because the third dialog's style and position is not same with the front one
+                if(options.hasKey(PICKER_TOOL_BAR_HEIGHT) && barViewHeight == 0){
+                    WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                    Window window = dialog.getWindow();
+                    if (window != null) {
+                        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                        layoutParams.format = PixelFormat.TRANSPARENT;
+                        layoutParams.windowAnimations = R.style.PickerAnim;
+                        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        layoutParams.height = height;
+                        layoutParams.gravity = Gravity.BOTTOM;
+                        layoutParams.y = 200;
+                        window.setAttributes(layoutParams);
+                    }
+                }
                 dialog.setContentView(view);
             }
         }
