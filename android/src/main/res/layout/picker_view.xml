@@ -9,7 +9,7 @@
         android:id="@+id/barLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pickerLayout">
+        android:layout_alignParentBottom="true">
 
         <TextView
             android:id="@+id/cancel"
@@ -40,7 +40,7 @@
         android:id="@+id/pickerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
+        android:layout_below="@id/barLayout">
 
         <com.beefe.picker.view.PickerViewLinkage
             android:id="@+id/pickerViewLinkage"
