@@ -1,3 +1,4 @@
+
 package com.beefe.picker;
 
 import android.app.Activity;
@@ -140,13 +141,15 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
         Activity activity = getCurrentActivity();
         if (activity != null && options.hasKey(PICKER_DATA)) {
             View view = activity.getLayoutInflater().inflate(R.layout.picker_view, null);
+
+            RelativeLayout pickerLayout = (RelativeLayout) view.findViewById(R.id.pickerLayout);
+            pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
+            pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
+
             RelativeLayout barLayout = (RelativeLayout) view.findViewById(R.id.barLayout);
             TextView cancelTV = (TextView) view.findViewById(R.id.cancel);
             TextView titleTV = (TextView) view.findViewById(R.id.title);
             TextView confirmTV = (TextView) view.findViewById(R.id.confirm);
-            RelativeLayout pickerLayout = (RelativeLayout) view.findViewById(R.id.pickerLayout);
-            pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
-            pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
 
             int barViewHeight;
             if (options.hasKey(PICKER_TOOL_BAR_HEIGHT)) {
@@ -158,9 +161,12 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             } else {
                 barViewHeight = (int) (activity.getResources().getDisplayMetrics().density * 40);
             }
+
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     barViewHeight);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            //params.addRule(RelativeLayout.BELOW, pickerLayout.getId());
             barLayout.setLayoutParams(params);
 
             if (options.hasKey(PICKER_TOOL_BAR_BG)) {
@@ -357,6 +363,8 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     layoutParams.gravity = Gravity.BOTTOM;
                     if (options.hasKey(PICKER_TOOL_BAR_HEIGHT) && barViewHeight == 0){
                         layoutParams.y = 200;
+                    }else{
+                        layoutParams.y = 0;
                     }
                     window.setAttributes(layoutParams);
                 }
