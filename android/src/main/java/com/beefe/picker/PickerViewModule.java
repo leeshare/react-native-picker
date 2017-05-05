@@ -371,7 +371,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             } else {
                 dialog.dismiss();
                 //2017-04-19 Add : because the third dialog's style and position is not same with the front one
-                if(options.hasKey(PICKER_TOOL_BAR_HEIGHT) && barViewHeight == 0){
                     WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
                     Window window = dialog.getWindow();
                     if (window != null) {
@@ -381,10 +380,13 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                         layoutParams.height = height;
                         layoutParams.gravity = Gravity.BOTTOM;
-                        layoutParams.y = 200;
+                        if(options.hasKey(PICKER_TOOL_BAR_HEIGHT) && barViewHeight == 0){
+                            layoutParams.y = 200;
+                        }else {
+                            layoutParams.y = 0;
+                        }
                         window.setAttributes(layoutParams);
                     }
-                }
                 dialog.setContentView(view);
             }
         }
