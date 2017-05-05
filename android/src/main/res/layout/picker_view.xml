@@ -40,7 +40,7 @@
         android:id="@+id/pickerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/barLayout">
+        android:layout_above="@id/barLayout">
 
         <com.beefe.picker.view.PickerViewLinkage
             android:id="@+id/pickerViewLinkage"
