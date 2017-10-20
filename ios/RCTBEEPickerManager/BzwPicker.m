@@ -8,6 +8,13 @@
 
 #import "BzwPicker.h"
 #define linSpace 5
+#define UILABEL_LINE_SPACE 0
+
+@interface BzwPicker()
+
+@property(nonatomic,assign)int chooseRow;
+
+@end
 
 @implementation BzwPicker
 
@@ -82,7 +89,8 @@
     
     [view addSubview:cenLabel];
 
-    self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40)];
+    self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40
+                                                               )];
     self.pick.delegate = self;
     self.pick.dataSource = self;
     self.pick.showsSelectionIndicator=YES;
@@ -305,6 +313,13 @@
     }
 }
 
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    //2017
+    //设置第一列的行高
+    return 50;
+}
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     if (!row) {
@@ -312,6 +327,16 @@
     }
     [self.backArry removeAllObjects];
     [self.infoArry removeAllObjects];
+    
+    //2017
+    self.chooseRow = (int)row;
+    UILabel *lbl = [self pickerView:pickerView viewForRow:row forComponent:0 reusingView:nil];
+    if (lbl != nil) {
+        CGFloat size = [_pickerFontSize integerValue] + 4;
+        lbl.font = [UIFont systemFontOfSize:size];
+        lbl.textColor = [UIColor blueColor];
+    }
+    
     
     if (_Correlation) {
         //这里是关联的
@@ -461,6 +486,9 @@
     if (self.backArry.count>0) {
          self.bolock(dic);
     }
+    
+    //2017
+    [pickerView reloadAllComponents];   //一定要写这句
 }
 //判断进来的类型是那种
 -(void)getStyle
@@ -935,8 +963,40 @@
     //重新加载lbl的文字内容
     lbl.text = [self pickerView:pickerView titleForRow:row forComponent:component];
     
+    //2017
+    if(self.chooseRow == (int)row){
+        //NSString *txt = [self pickerView:pickerView titleForRow:row forComponent:component];
+        NSInteger size = [_pickerFontSize integerValue] + 4;
+        lbl.font = [UIFont systemFontOfSize:size];
+        
+        //lbl.textColor = [UIColor blueColor];
+    
+        //[self setLabelSpace:lbl withValue:txt withFont:[UIFont systemFontOfSize:size]];
+        
+    }
+    
     return lbl;
     
+}
+
+//给UILabel设置行间距和字间距
+-(void)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font {
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    //paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paraStyle.alignment = NSTextAlignmentCenter;
+    paraStyle.lineSpacing = UILABEL_LINE_SPACE; //设置行间距
+    //paraStyle.hyphenationFactor = 1.0;
+    //paraStyle.firstLineHeadIndent = 0.0;
+    //paraStyle.paragraphSpacingBefore = 0.0;
+    paraStyle.paragraphSpacing = UILABEL_LINE_SPACE;
+    //paraStyle.headIndent = 0;
+    //paraStyle.tailIndent = 0;
+    //设置字间距 NSKernAttributeName:@1.5f
+    NSDictionary *dic = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paraStyle, NSKernAttributeName:@1.5f
+                          };
+    
+    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:str attributes:dic];
+    label.attributedText = attributeStr;
 }
 
 @end
