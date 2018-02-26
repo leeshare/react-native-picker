@@ -89,6 +89,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private static final String PICKER_TOOL_BAR_BG = "pickerToolBarBg";
     private static final String PICKER_TOOL_BAR_HEIGHT = "pickerToolBarHeight";
     private static final String PICKER_TOOL_BAR_TEXT_SIZE = "pickerToolBarFontSize";
+    private static final String IS_TOOL_BAR_TOP = "isToolBarTop";      //是否将工具条显示在顶部 2018 add
 
     private static final String PICKER_CONFIRM_BTN_TEXT = "pickerConfirmBtnText";
     private static final String PICKER_CONFIRM_BTN_COLOR = "pickerConfirmBtnColor";
@@ -140,7 +141,16 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     public void _init(ReadableMap options) {
         Activity activity = getCurrentActivity();
         if (activity != null && options.hasKey(PICKER_DATA)) {
-            View view = activity.getLayoutInflater().inflate(R.layout.picker_view, null);
+            boolean isToolBarTop = false;
+            if(options.hasKey(IS_TOOL_BAR_TOP)){
+                isToolBarTop = options.getBoolean(IS_TOOL_BAR_TOP);
+            }
+            View view;
+            if(isToolBarTop){
+                view = activity.getLayoutInflater().inflate(R.layout.picker_view_top, null);
+            }else {
+                view = activity.getLayoutInflater().inflate(R.layout.picker_view, null);
+            }
 
             RelativeLayout pickerLayout = (RelativeLayout) view.findViewById(R.id.pickerLayout);
             pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
@@ -165,8 +175,18 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     barViewHeight);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             //params.addRule(RelativeLayout.BELOW, pickerLayout.getId());
+            //2018 add 针对 报名时选择批次插件 需要将工具条显示在顶部
+            if(isToolBarTop){
+                //params.addRule(RelativeLayout.ABOVE, pickerLayout.getId());
+            }else {
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                /*RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params2.addRule(RelativeLayout.ABOVE, barLayout.getId());
+                pickerLayout.setLayoutParams(params2);*/
+            }
             barLayout.setLayoutParams(params);
 
             if (options.hasKey(PICKER_TOOL_BAR_BG)) {

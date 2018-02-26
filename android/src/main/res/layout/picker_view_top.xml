@@ -4,22 +4,6 @@
     android:layout_height="wrap_content"
     android:background="#00000000">
 
-    <RelativeLayout
-        android:id="@+id/pickerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/barLayout">
-
-        <com.beefe.picker.view.PickerViewLinkage
-            android:id="@+id/pickerViewLinkage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <com.beefe.picker.view.PickerViewAlone
-            android:id="@+id/pickerViewAlone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/barLayout"
@@ -28,12 +12,14 @@
         android:layout_above="@+id/pickerLayout">
 
         <TextView
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:padding="9dp" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -50,6 +36,22 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/pickerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.beefe.picker.view.PickerViewLinkage
+            android:id="@+id/pickerViewLinkage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.beefe.picker.view.PickerViewAlone
+            android:id="@+id/pickerViewAlone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
 </RelativeLayout>
 
