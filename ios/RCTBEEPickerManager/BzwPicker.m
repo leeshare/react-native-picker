@@ -20,6 +20,7 @@
 
 -(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry  weightArry:(NSArray *)weightArry
        pickerToolBarFontSize:(NSString *)pickerToolBarFontSize  pickerFontSize:(NSString *)pickerFontSize  pickerFontColor:(NSArray *)pickerFontColor
+                isToolBarTop:(Boolean *)isToolBarTop
 
 {
     self = [super initWithFrame:frame];
@@ -40,21 +41,21 @@
         [self getStyle];
         [self getnumStyle];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self makeuiWith:topbgColor With:bottombgColor With:leftbtnbgColor With:rightbtnbgColor With:centerbtnColor];
+            [self makeuiWith:topbgColor With:bottombgColor With:leftbtnbgColor With:rightbtnbgColor With:centerbtnColor With:isToolBarTop];
             [self selectRow];
         });
     }
     return self;
 }
--(void)makeuiWith:(NSArray *)topbgColor With:(NSArray *)bottombgColor With:(NSArray *)leftbtnbgColor With:(NSArray *)rightbtnbgColor With:(NSArray *)centerbtnColor
+-(void)makeuiWith:(NSArray *)topbgColor With:(NSArray *)bottombgColor With:(NSArray *)leftbtnbgColor With:(NSArray *)rightbtnbgColor With:(NSArray *)centerbtnColor With:(Boolean *)isToolBarTop
 {
     int dataHeight = self.frame.size.height - 40;
     
     
     //因为 把数据条提到上面，而把工具条放在下面
     self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0,
-                                                               //40,
-                                                               0,
+                                                               40,
+                                                               //0,
                                                                self.frame.size.width,
                                                                dataHeight
                                                                )];
@@ -63,9 +64,14 @@
     self.pick.showsSelectionIndicator=YES;
     [self addSubview:self.pick];
 
-    
-    //UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, 40)];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,0 + dataHeight, self.frame.size.width, 40)];
+    UIView *view;
+    if(isToolBarTop){
+        //菜单置顶
+        view = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, 40)];
+    }else {
+        //菜单置底
+        view = [[UIView alloc] initWithFrame:CGRectMake(0,0 + dataHeight, self.frame.size.width, 40)];
+    }
     view.backgroundColor = [UIColor cyanColor];
     
     [self addSubview:view];
