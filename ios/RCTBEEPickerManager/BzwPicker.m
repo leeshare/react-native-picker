@@ -78,7 +78,7 @@
     
     
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.leftBtn.frame = CGRectMake(10, 5, 90, 30);
+    self.leftBtn.frame = CGRectMake(13, 8, 90, 30);
     [self.leftBtn setTitle:self.leftStr forState:UIControlStateNormal];
     [self.leftBtn setFont:[UIFont systemFontOfSize:[_pickerToolBarFontSize integerValue]]];
     self.leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -91,7 +91,7 @@
     view.backgroundColor=[self colorWith:topbgColor];
     
     self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rightBtn.frame = CGRectMake(view.frame.size.width-100,5, 90, 30);
+    self.rightBtn.frame = CGRectMake(view.frame.size.width-103,8, 90, 30);
     [self.rightBtn setTitle:self.rightStr forState:UIControlStateNormal];
     self.rightBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     
@@ -101,11 +101,11 @@
     [self.rightBtn addTarget:self action:@selector(cfirmAction) forControlEvents:UIControlEventTouchUpInside];  
     [view addSubview:self.rightBtn];
     
-    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 5, SCREEN_WIDTH-180, 30)];
+    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 8, SCREEN_WIDTH-180, 30)];
     
     cenLabel.textAlignment=NSTextAlignmentCenter;
     
-    [cenLabel setFont:[UIFont systemFontOfSize:[_pickerToolBarFontSize integerValue]]];
+    [cenLabel setFont:[UIFont systemFontOfSize:[_pickerToolBarFontSize integerValue] + 1]];
     
     cenLabel.text=self.centStr;
     
